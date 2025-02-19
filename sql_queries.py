@@ -1,5 +1,16 @@
-import configparser
+"""
+sql_queries.py
 
+This module contains all SQL queries used to drop, create, and load tables in the Sparkify data warehouse.
+It defines queries for:
+    - Dropping existing tables.
+    - Creating staging and analytics tables for the star schema.
+    - Loading data from S3 into staging tables using the COPY command.
+    - Inserting data from staging tables into final analytics tables.
+    - Querying row counts from the final tables for validation.
+"""
+
+import configparser
 
 # CONFIG
 config = configparser.ConfigParser()
@@ -135,7 +146,6 @@ staging_songs_copy = ("""
     REGION '{}';
 """).format(SONG_DATA, ARN, REGION)
 
-
 # FINAL TABLES
 
 songplay_table_insert = ("""
@@ -213,8 +223,6 @@ drop_table_queries = [staging_events_table_drop, staging_songs_table_drop,
 copy_table_queries = [staging_events_copy, staging_songs_copy]
 insert_table_queries = [songplay_table_insert, user_table_insert,
                         song_table_insert, artist_table_insert, time_table_insert]
-insert_table_queries = [songplay_table_insert, user_table_insert, song_table_insert, artist_table_insert, time_table_insert]
-
 table_count_queries = [
     "SELECT COUNT(*) FROM songplays;",
     "SELECT COUNT(*) FROM users;",
